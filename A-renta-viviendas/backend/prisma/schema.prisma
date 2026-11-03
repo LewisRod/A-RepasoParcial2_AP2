@@ -1,0 +1,45 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  nombre   String
+  email    String @unique
+  password String
+  rol      String @default("cliente")
+
+  viviendas Vivienda[]
+  alquileres Alquiler[]
+}
+
+model Vivienda {
+  id            Int     @id @default(autoincrement())
+  titulo        String
+  descripcion   String
+  direccion     String
+  precioMensual Int
+  habitaciones  Int
+  disponible   Boolean @default(true)
+  propietarioId Int
+
+  propietario Usuario @relation(fields: [propietarioId], references: [id])
+  alquileres  Alquiler[]
+}
+
+model Alquiler {
+  id          Int      @id @default(autoincrement())
+  fechaInicio DateTime
+  fechaFin    DateTime
+  estado      String   @default("pendiente")
+  usuarioId   Int
+  viviendaId  Int
+
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  vivienda Vivienda @relation(fields: [viviendaId], references: [id])
+}
