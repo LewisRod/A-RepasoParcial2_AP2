@@ -18,6 +18,7 @@ model Usuario {
   alquileres Alquiler[]
 }
 
+
 model Vivienda {
   id            Int     @id @default(autoincrement())
   titulo        String
@@ -32,11 +33,12 @@ model Vivienda {
   alquileres  Alquiler[]
 }
 
+
 model Alquiler {
   id          Int      @id @default(autoincrement())
   fechaInicio DateTime
   fechaFin    DateTime
-  estado      String   @default("pendiente")
+  estado      String   @default("pendiente") //Estados: PENDIENTE, APROBADO, FINALIZADO
   usuarioId   Int
   viviendaId  Int
 
