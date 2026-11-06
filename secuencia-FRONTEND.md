@@ -64,6 +64,7 @@ Revisar `package.json` y confirmar que el proyecto tenga configurado Expo Router
 src/
 └── app/
     └── _layout.jsx
+      /index.jsx
 ```
 
 -------------------------------------------------------------------------------------------

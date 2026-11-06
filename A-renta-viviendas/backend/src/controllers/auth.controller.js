@@ -23,7 +23,7 @@ export const register = async (req, res) => {
         data:{nombre,email,password:passwordHash}
     })
 
-    return res.status(201).json({mensaje: "Usuario creado correctamente",registro:{nombre,email,rol}})
+    return res.status(201).json({mensaje: "Usuario creado correctamente",registro})
 
 }
 
