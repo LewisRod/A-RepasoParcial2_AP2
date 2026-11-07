@@ -37,7 +37,7 @@ export default function RegistroUsuario() {
       <Text>Rol (cliente o propietario)</Text>
       <TextInput placeholder="Ingrese su rol (opcional)" value={rol} onChangeText={setRol} />
 
-      <Button title="registrarse" onPress={() => router.push("/auth/login")}/>
+      <Button title="registrarse" onPress={handleRegistro}/>
     </View>
   );
 }
