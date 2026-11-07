@@ -12,7 +12,7 @@ export default function Login() {
     const [password, setPassword] = useState("")
     
     
-    const handleLogin = async () => {
+   async function handleLogin(){
 
         const respuesta = await iniciarSesion({ email, password })
 
@@ -21,7 +21,8 @@ export default function Login() {
         Alert.alert("sesion iniciada correctamente", [
           { text: "Aceptar",onPress: () => router.push("/viviendas")}
         ])
-    }
+   }
+    
 
     return (
         <View>

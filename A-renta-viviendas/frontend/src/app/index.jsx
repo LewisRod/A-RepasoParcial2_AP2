@@ -1,22 +1,13 @@
-import { View, Text, Button } from "react-native";
-import { useRouter } from "expo-router"
+import { router } from "expo-router"
+import { View, Text, Button } from "react-native"
 
-export default function Index() {
-  const router = useRouter();
-
+export default function () {
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20, gap: 10 }}>
-      <Text>Sistema de renta de viviendas</Text>
+    <View>
+      <Text>Sistema de viviendas</Text>
 
-      <Button
-        title="Iniciar sesión"
-        onPress={() => router.push("/auth/login")}
-      />
-
-      <Button
-        title="Registrarse"
-        onPress={() => router.push("/auth/register")}
-      />
+      <Button title="registro" onPress={() => router.push("/auth/register")} />
+      <Button title="login" onPress={() => router.push("/auth/login")}/>
     </View>
   );
 }

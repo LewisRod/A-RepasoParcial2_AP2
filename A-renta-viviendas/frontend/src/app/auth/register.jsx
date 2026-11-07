@@ -10,7 +10,7 @@ export default function RegistroUsuario(){
     const [password, setPassword] = useState("")
     const [rol, setRol] = useState("")
     
-    const handleRegister = async () => {
+     async function handleRegistro(){
         const respuesta = await registrarUsuario({
            nombre,email,password,rol: rol || "cliente" 
         })
@@ -62,7 +62,7 @@ export default function RegistroUsuario(){
 
         <Text>Si no eliges un rol, se asignará cliente por defecto.</Text>
 
-        <Button title="Registrarse" onPress={handleRegister} />
+        <Button title="Registrarse" onPress={handleRegistro} />
 
         <Button title="Ir a login" onPress={() => router.push("/auth/login")} />
       </View>
