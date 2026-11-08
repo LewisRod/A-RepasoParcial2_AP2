@@ -1,12 +1,13 @@
 import { router } from "expo-router"
 import { useState, useEffect } from "react"
-import { View, Text, Button, Alert, FlatList } from "react-native"
+import { View, Button, FlatList, Text } from "react-native"
 import { listarViviendas } from "../../servicios/viviendaServices"
 
 
 export default function Viviendas() {
   const [viviendas, setViviendas] = useState([])
   
+
   async function cargarViviendas() {
     const datos = await listarViviendas()
     setViviendas(datos)
@@ -16,10 +17,9 @@ export default function Viviendas() {
     cargarViviendas()
   }, [])
   
+
   return (
     <View>
-      <Text>Listar viviendas</Text>
-
       <FlatList
         data={viviendas}
         keyExtractor={(item) => item.id.toString()}
@@ -29,11 +29,14 @@ export default function Viviendas() {
             <Text>Direccion: {item.direccion}</Text>
             <Text>Precio mensual {item.precioMensual}</Text>
             <Text>Habitaciones: {item.habitaciones}</Text>
-            <Text>Disponivilidad: {item.disponible ? "disponible" : "ocupada"}</Text>
+            <Text>
+              Disponivilidad: {item.disponible ? "disponible" : "ocupada"}
+            </Text>
           </View>
         )}
       />
+
+      <Button title="crear vivienda" onPress={() => router.push("/viviendas/crear")}/>
     </View>
   );
 }
-
