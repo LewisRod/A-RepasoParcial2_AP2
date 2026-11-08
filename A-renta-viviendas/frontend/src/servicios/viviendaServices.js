@@ -10,6 +10,7 @@ export async function buscarVivienda(id) {
   return respuesta.data
 }
 
+
 export async function crearVivienda(datos) {
   const respuesta = await api.post("/viviendas", datos)
   return respuesta.data
@@ -25,7 +26,8 @@ export async function eliminarVivienda(id) {
   return respuesta.data
 }
 
-export async function viviendasDisponible() {
+
+export async function viviendasDisponibles() {
   const respuesta = await api.get("/viviendas/disponibles")
   return respuesta.data
 }
