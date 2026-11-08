@@ -1,13 +1,14 @@
 import { router } from "expo-router"
 import { View, Text, Button } from "react-native"
 
-export default function () {
+export default function Index() {
   return (
     <View>
-      <Text>Sistema de viviendas</Text>
+      <Text>Sistema de reserva viviendas</Text>
+      <Text>Login</Text>
 
-      <Button title="registro" onPress={() => router.push("/auth/register")} />
-      <Button title="login" onPress={() => router.push("/auth/login")}/>
+      <Button title="registrarse" onPress={() => router.push("/auth/register")} />
+      <Button title="iniciar sesion" onPress={() => router.push("/auth/login")}/>
     </View>
-  );
+  )
 }

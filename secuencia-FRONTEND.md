@@ -128,13 +128,26 @@ La estructura se puede adaptar al ejercicio, pero se deben mantener separadas la
 
 
 ```javascript
-import axios from "axios"
+import axios from "axios";
+import { obtenerToken } from "./authStorage.js";
 
 const api = axios.create({
-    baseURL: process.env.EXPO_PUBLIC_API_URL
-})
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
+});
 
-export default api
+
+api.interceptors.request.use(async (config) => {
+  const token = await obtenerToken();
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+
+export default api;
 ```
 
 Los demás servicios importarán esta instancia:

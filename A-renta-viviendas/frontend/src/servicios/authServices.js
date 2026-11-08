@@ -1,12 +1,11 @@
 import api from "./api.js"
 
-export const iniciarSesion = async (datos) => {
-  const respuesta = await api.post("/auth/register", datos)
+export async function registrarUsuario(datos) {
+  const respuesta = await api.post("/auth/register")
   return respuesta.data
 }
 
-
-export const registrarUsuario = async (datos) => {
+export async function iniciarSesion(datos) {
   const respuesta = await api.post("/auth/login", datos)
   return respuesta.data
 }
