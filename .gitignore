@@ -1,0 +1,9 @@
+# Archivos Markdown
+*.md
+
+# Variables de entorno
+.env
+.env.*
+
+# Archivos del sistema
+.DS_Store
