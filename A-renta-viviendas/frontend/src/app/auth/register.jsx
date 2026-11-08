@@ -1,5 +1,5 @@
 import { router } from "expo-router"
-import { View, Text, TextInput, Button, Alert } from "react-native"
+import { View, Text, TextInput, Button, Alert,StyleSheet } from "react-native"
 import { useState } from "react"
 import { registrarUsuario } from "../../servicios/authServices.js"
 
@@ -12,16 +12,25 @@ export default function RegistrarUsuario(){
   
 
   async function handleRegistro() {
-    await registrarUsuario({
-      nombre,email,password,rol:rol || "cliente"
-    })
+   try {
+     await registrarUsuario({
+       nombre,
+       email,
+       password,
+       rol: rol || "cliente",
+     });
 
-    Alert.alert("usuario registrado correctamente",[{text:"aceptar",onPress: () => router.push("/auth/login")}])
+     Alert.alert("Registro exitoso", "usuario registrado correctamente", [
+       { text: "aceptar", onPress: () => router.push("/auth/login") }
+     ])
+   } catch (error) {
+    ("Error de registro", error.response?.data?.mensaje)
+   }
   }
 
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Registroo</Text>
 
       <Text>Nombre</Text>
@@ -40,3 +49,13 @@ export default function RegistrarUsuario(){
     </View>
   )
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 24,
+    backgroundColor: "#eff6ff",
+  }
+})

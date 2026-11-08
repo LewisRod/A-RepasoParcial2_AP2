@@ -1,5 +1,5 @@
 import { router } from "expo-router"
-import { View, Button, Text, TextInput,Alert } from "react-native"
+import { View, Button, Text, TextInput,Alert,StyleSheet } from "react-native"
 import { iniciarSesion } from "../../servicios/authServices.js"
 import { guardarToken } from "../../servicios/authStorage.js"
 import { useState } from "react"
@@ -11,18 +11,24 @@ export default function Login() {
     
 
     async function handleLogin() {
-        const respuesta = await iniciarSesion({
-            email,password
-        })
+      try {
+          const respuesta = await iniciarSesion({
+            email,
+            password,
+          });
 
-        await guardarToken(respuesta.token)
+          await guardarToken(respuesta.token);
 
-        Alert.alert("logeado correctamente",[{text:"continuar",onPress: () => router.push("/viviendas")}])
+          Alert.alert("Inicio de sesión exitoso","Bienvenido", [
+            { text: "continuar", onPress: () => router.remplace("/viviendas") }]);
+      } catch (error) { 
+              console.log( "ERROR LOGIN:",error.response?.data || error.message)
+      }
     }
 
 
     return (
-      <View>
+      <View style={styles.container}>
             <Text>Login</Text>
             
         <Text>Email</Text>
@@ -41,3 +47,12 @@ export default function Login() {
       </View>
     );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 24,
+    backgroundColor: "#eff6ff",
+  },
+});
