@@ -12,7 +12,7 @@ export async function buscarVivienda(id) {
 
 
 export async function crearVivienda(datos) {
-  const respuesta = await api.post("/viviendas", datos)
+  const respuesta = await api.post("/viviendas", datos) 
   return respuesta.data
 }
 

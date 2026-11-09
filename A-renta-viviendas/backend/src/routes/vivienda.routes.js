@@ -1,4 +1,4 @@
-import Router from "express"
+import {Router} from "express"
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 import { listarViviendas,buscarVivienda,viviendasDisponibles,crearVivienda,actualizarVivienda,eliminarVivienda } from "../controllers/viviendas.controller.js";
 

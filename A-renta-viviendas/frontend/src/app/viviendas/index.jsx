@@ -1,13 +1,12 @@
 import { router } from "expo-router"
-import { useState, useEffect } from "react"
-import { View, Button, FlatList, Text } from "react-native"
-import { listarViviendas } from "../../servicios/viviendaServices"
+import { View, Text, Button,FlatList,StyleSheet} from "react-native"
+import { listarViviendas } from "../../servicios/viviendaServices.js"
+import { useState,useEffect } from "react"
 
 
 export default function Viviendas() {
   const [viviendas, setViviendas] = useState([])
   
-
   async function cargarViviendas() {
     const datos = await listarViviendas()
     setViviendas(datos)
@@ -17,26 +16,35 @@ export default function Viviendas() {
     cargarViviendas()
   }, [])
   
-
   return (
-    <View>
+    <View style={styles.container}>
+      <Text>Lista de vivendas</Text>
+
       <FlatList
         data={viviendas}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View>
             <Text>{item.titulo}</Text>
+            <Text>Descripcion: {item.descripcion}</Text>
             <Text>Direccion: {item.direccion}</Text>
-            <Text>Precio mensual {item.precioMensual}</Text>
+            <Text>Precio mensual: {item.precioMensual}</Text>
             <Text>Habitaciones: {item.habitaciones}</Text>
-            <Text>
-              Disponivilidad: {item.disponible ? "disponible" : "ocupada"}
-            </Text>
           </View>
         )}
       />
 
       <Button title="crear vivienda" onPress={() => router.push("/viviendas/crear")}/>
-    </View>
-  );
+  </View>
+  )
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 24,
+    backgroundColor: "#eff6ff",
+  },
+});

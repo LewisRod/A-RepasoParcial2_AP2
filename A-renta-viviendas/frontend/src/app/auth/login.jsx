@@ -20,7 +20,7 @@ export default function Login() {
           await guardarToken(respuesta.token);
 
           Alert.alert("Inicio de sesión exitoso","Bienvenido", [
-            { text: "continuar", onPress: () => router.remplace("/viviendas") }]);
+            { text: "continuar", onPress: () => router.replace("/viviendas") }]);
       } catch (error) { 
               console.log( "ERROR LOGIN:",error.response?.data || error.message)
       }
