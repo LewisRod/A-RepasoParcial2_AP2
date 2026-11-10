@@ -1,27 +1,28 @@
-import { router } from "expo-router"
+import { router, useFocusEffect } from "expo-router";
 import { FlatList, View, Text, Button,StyleSheet} from "react-native"
-import { useState, useEffect} from "react"
+import { useState,useCallback} from "react"
 import { listarViviendas } from "../../servicios/viviendaServices.js"
 
 export default function Viviendas() {
   const [viviendas, setViviendas] = useState([])
   
 
-  useEffect(() => {
-    cargarViviendas()
-  },[])
-
   async function cargarViviendas() {
     try {
-
+      
       const datos = await listarViviendas()
       setViviendas(datos)
-
+      
     } catch (error) {
       Alert.alert("Error", "No se pudieron cargar las viviendas");
     }
   }
-
+  
+  useFocusEffect(
+    useCallback(() => {
+      cargarViviendas();
+    }, [])
+  )
 
   return (
     <View style={style.container}>
