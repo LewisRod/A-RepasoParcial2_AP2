@@ -24,8 +24,7 @@ export const viviendasDisponibles = async (req, res) => {
 };
 
 export const crearVivienda = async (req, res) => {
-  const { titulo, descripcion, direccion, precioMensual, habitaciones } =
-    req.body;
+  const { titulo, descripcion, direccion, precioMensual, habitaciones } = req.body;
 
   if (req.usuario.rol != "propietario") {
     return res

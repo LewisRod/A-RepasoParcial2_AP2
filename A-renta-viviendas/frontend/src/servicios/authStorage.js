@@ -6,11 +6,11 @@ export async function guardarToken(token) {
     await AsyncStorage.setItem(TOKEN_KEY,token)
 }
 
-export async function obtenerToken(token) {
-    await AsyncStorage.getItem(TOKEN_KEY)
+export async function obtenerToken() {
+    return await AsyncStorage.getItem(TOKEN_KEY)
 }
 
-export async function eliminarToken(token) {
+export async function eliminarToken() {
     await AsyncStorage.removeItem(TOKEN_KEY)
 }
 

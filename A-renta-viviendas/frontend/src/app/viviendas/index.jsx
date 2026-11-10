@@ -1,24 +1,31 @@
 import { router } from "expo-router"
-import { View, Text, Button,FlatList,StyleSheet} from "react-native"
+import { FlatList, View, Text, Button,StyleSheet} from "react-native"
+import { useState, useEffect} from "react"
 import { listarViviendas } from "../../servicios/viviendaServices.js"
-import { useState,useEffect } from "react"
-
 
 export default function Viviendas() {
   const [viviendas, setViviendas] = useState([])
   
-  async function cargarViviendas() {
-    const datos = await listarViviendas()
-    setViviendas(datos)
-  }
 
   useEffect(() => {
     cargarViviendas()
-  }, [])
-  
+  },[])
+
+  async function cargarViviendas() {
+    try {
+
+      const datos = await listarViviendas()
+      setViviendas(datos)
+
+    } catch (error) {
+      Alert.alert("Error", "No se pudieron cargar las viviendas");
+    }
+  }
+
+
   return (
-    <View style={styles.container}>
-      <Text>Lista de vivendas</Text>
+    <View style={style.container}>
+      <Text>VIVIENDAS</Text>
 
       <FlatList
         data={viviendas}
@@ -35,16 +42,13 @@ export default function Viviendas() {
       />
 
       <Button title="crear vivienda" onPress={() => router.push("/viviendas/crear")}/>
-  </View>
+    </View>
   )
+
 }
 
-
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 24,
-    backgroundColor: "#eff6ff",
-  },
-});
+    padding:100
+  }
+})

@@ -1,61 +1,66 @@
 import { router } from "expo-router"
-import { View, Text, TextInput, Button, Alert,StyleSheet } from "react-native"
 import { useState } from "react"
+import { View, Text, TextInput, Button,Alert,StyleSheet } from "react-native"
 import { registrarUsuario } from "../../servicios/authServices.js"
+ 
 
-
-export default function RegistrarUsuario(){
+export default function RegistroUsuario() {
   const [nombre, setNombre] = useState("")
   const [email, setEmail] = useState("")
-  const [password, setPassoword] = useState("")
+  const [password, setPassword] = useState("")
   const [rol, setRol] = useState("")
   
-
   async function handleRegistro() {
-   try {
-     await registrarUsuario({
-       nombre,
-       email,
-       password,
-       rol: rol || "cliente",
-     });
+    await registrarUsuario({
+      nombre,email,password,rol:rol.toLowerCase().trim() || "cliente"
+    })
 
-     Alert.alert("Registro exitoso", "usuario registrado correctamente", [
-       { text: "aceptar", onPress: () => router.push("/auth/login") }
-     ])
-   } catch (error) {
-    ("Error de registro", error.response?.data?.mensaje)
-   }
+    Alert.alert("registro correctamente","continue para logearse",[{text:"continuar",onPress:() => router.push("/auth/login")}])
   }
 
 
   return (
-    <View style={styles.container}>
-      <Text>Registroo</Text>
+    <View style={style.container}>
+      <Text>Registro de usuarios</Text>
 
       <Text>Nombre</Text>
-      <TextInput placeholder="digite su nombre..." value={nombre} onChangeText={setNombre} />
-      
+      <TextInput
+        placeholder="digite su nombre"
+        value={nombre}
+        onChangeText={setNombre}
+      />
+
       <Text>Email</Text>
-      <TextInput placeholder="digite su email..." value={email} onChangeText={setEmail} />
+      <TextInput
+        placeholder="digite su email"
+        value={email}
+        onChangeText={setEmail}
+      />
 
-      <Text>Contrasena</Text>
-      <TextInput placeholder="digite  su contrasena..." value={password} onChangeText={setPassoword} secureTextEntry/>
+      <Text>Password</Text>
+      <TextInput
+        placeholder="digite su password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
 
-      <Text>Rol (cliente o propietario)</Text>
-      <TextInput placeholder=" digite su rol (campo opcional)" value={rol} onChangeText={setRol} />
-      
-      <Button title="registrarse" onPress={handleRegistro}/>
+      <Text>Elija su rol</Text>
+
+      <Button title="O cliente" onPress={() => setRol("cliente")} />
+      <Button title="O propietario" onPress={() => setRol("propietario")} />
+
+      <Text>Rol seleccionado: {rol || "Ninguno"}</Text>
+
+      <Button title="registrar" onPress={handleRegistro} />
     </View>
-  )
+  );
 }
 
 
-const styles = StyleSheet.create({
+
+const style = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 24,
-    backgroundColor: "#eff6ff",
-  }
-})
+   padding:100
+  },
+});
