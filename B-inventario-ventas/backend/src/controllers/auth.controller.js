@@ -1,25 +1,25 @@
 import prisma from "../db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+ 
 
 export const register = async (req, res) => {
     const { nombre, email, password, rol } = req.body
     
     if (!nombre || !email || !password) {
-        return res.status(403).json({mensaje:"faltan campos por llenar"})
+       return res.status(404).json({mensaje:"faltan campos por llenar"}) 
     }
 
     if (typeof nombre != "string" || typeof email != "string" || typeof password != "string") {
-        return res.status(403).json({mensaje:"los campos son string"})
+        return res.status(403).json({mensaje:"los campos deben ser tipo string"})
     }
 
-    const usuarioExistente = await prisma.usuario.findUnique({
+    const usuario = await prisma.usuario.findUnique({
         where:{email}
     })
 
-    if (usuarioExistente) {
-        return res.status(403).json({mensaje:"usuario existente"})
+    if (usuario) {
+        return res.status(403).json({mensaje:"usuario registrado"})
     }
 
     const passwordHash = await bcrypt.hash(password,10)
@@ -36,11 +36,11 @@ export const login = async (req, res) => {
     const { email, password } = req.body
     
     if (!email || !password) {
-        return res.status(403).json({mensaje:"faltan campos"})
+        return res.status(403).json({mensaje:"faltan campos por llenar"})
     }
 
-    if (typeof email != "string" || typeof password != "string") {
-        return res.status(403).json({mensaje:"los datos son string"})
+    if ( typeof email != "string" || typeof password != "string") {
+        return res.status(403).json({ mensaje: "los campos deben ser tipo string" });
     }
 
     const usuario = await prisma.usuario.findUnique({
@@ -48,14 +48,13 @@ export const login = async (req, res) => {
     })
 
     if (!usuario) {
-        return res.status(404).json({mensaje:"usuario no encontradod"})
+        return res.status(404).json({mensaje:"usuario no encontrado"})
     }
 
-    const contrasenaCorrecta = await bcrypt.compare(password, usuario.password)
-    
+    const contrasenaCorrecta = await bcrypt.compare(password,usuario.password)
 
-    if (contrasenaCorrecta) {
-        return res.status(403).json({mensaje:"contrasena incorrecta"})
+    if (!contrasenaCorrecta) {
+        return res.status(200).json({mensaje:"la contrasena es incorrecta"})
     }
 
     const token = jwt.sign(
@@ -64,5 +63,5 @@ export const login = async (req, res) => {
         {expiresIn:"20h"}
     )
 
-    return res.status(200).json({mensaje:"Inicio sesion correctamente",token})
+    return res.status(200).json({mensaje:"inicio sesion correctamente",token})
 }

@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 const TOKEN_KEY = "token"
 
 export async function guardarToken(token) {
-    await AsyncStorage.setItem(TOKEN_KEY,token)
+    await AsyncStorage.setItem( TOKEN_KEY,token)
 }
 
 export async function obtenerToken() {
@@ -13,4 +13,3 @@ export async function obtenerToken() {
 export async function eliminarToken() {
     await AsyncStorage.removeItem(TOKEN_KEY)
 }
-

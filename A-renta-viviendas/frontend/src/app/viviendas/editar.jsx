@@ -1,55 +1,42 @@
 import { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, Alert } from "react-native";
 import { router, useLocalSearchParams } from "expo-router"
-import {buscarVivienda, actualizarVivienda} from "../../servicios/viviendaServices.js";
+import { actualizarVivienda, buscarVivienda} from "../../servicios/viviendaServices.js"
+import { View, Text, TextInput, Button, Alert } from "react-native"
 
-export default function EditarVivienda() {
 
+export default function Editar(){
   const { id } = useLocalSearchParams()
   const [titulo, setTitulo] = useState("")
   const [descripcion, setDescripcion] = useState("")
   const [direccion, setDireccion] = useState("")
   const [precioMensual, setPrecioMensual] = useState("")
   const [habitaciones, setHabitaciones] = useState("")
-
+  
   useEffect(() => {
-    const cargarVivienda = async () => {
-      
-        const vivienda = await buscarVivienda(id)
+    async function cargarVivienda() {
+      const vivienda = await buscarVivienda(id)
 
-        setTitulo(vivienda.titulo);
-        setDescripcion(vivienda.descripcion);
-        setDireccion(vivienda.direccion);
-        setPrecioMensual(String(vivienda.precioMensual));
-        setHabitaciones(String(vivienda.habitaciones));
-      
-    };
-
+      setTitulo(vivienda.titulo)
+      setDescripcion(vivienda.descripcion)
+      setDireccion(vivienda.direccion)
+      setPrecioMensual(String(vivienda.precioMensual))
+      setHabitaciones(String(vivienda.habitaciones))
+    }
     cargarVivienda()
   }, [id])
+  
+  async function handleActualizar() {
+    const datos = {
+      titulo,descripcion,direccion,precioMensual:Number(precioMensual),habitaciones:Number(habitaciones)
+    }
+
+    await actualizarVivienda(id, datos)
     
-
-  const handleActualizar = async () => {
-    
-      const datos = {
-        titulo,
-        descripcion,
-        direccion,
-        precioMensual: Number(precioMensual),
-        habitaciones: Number(habitaciones),
-      };
-
-      await actualizarVivienda(id, datos);
-
-      Alert.alert("Vivienda actualizada correctamente", [
-        { text: "Aceptar",onPress: () => router.replace("/viviendas")}
-      ])
-   
+    Alert.alert("vivienda acrualizada","continua para ver la actualizacion",[{text:"continuar",onPress:() => router.replace("/viviendas")}])
   }
-    
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20, gap: 10 }}>
+     <View style={{ flex: 1, justifyContent: "center", padding: 20, gap: 10 }}>
       <Text>Editar vivienda</Text>
 
       <Text>Título</Text>
@@ -75,5 +62,5 @@ export default function EditarVivienda() {
 
       <Button title="Guardar cambios" onPress={handleActualizar} />
     </View>
-  );
+  )
 }

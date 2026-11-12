@@ -38,13 +38,22 @@ export default function Viviendas() {
             <Text>Direccion: {item.direccion}</Text>
             <Text>Precio mensual: {item.precioMensual}</Text>
             <Text>Habitaciones: {item.habitaciones}</Text>
+            <Text>Dispocision: {item.disponible}</Text>
+
+            <Button title="editar" onPress={() => router.push(`/viviendas/editar?id=${item.id}`)} />
+
+            <Button title="Solicitar alquiler" onPress={() => router.push(`/alquileres/solicitar?viviendaId=${item.id}`)}
+            />
           </View>
         )}
       />
 
-      <Button title="crear vivienda" onPress={() => router.push("/viviendas/crear")}/>
+      <Button
+        title="crear vivienda"
+        onPress={() => router.push("/viviendas/crear")}
+      />
     </View>
-  )
+  );
 
 }
 
