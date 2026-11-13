@@ -15,3 +15,4 @@ app.use("/ventas",ventasRouter)
 app.listen(3000, () => {
   console.log("tamo en el puerto 3000");
 });
+ 

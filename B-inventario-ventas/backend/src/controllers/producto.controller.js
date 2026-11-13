@@ -25,17 +25,35 @@ export const buscarProducto = async (req, res) => {
 
 export const crearProducto = async (req, res) => {
     const { nombre, categoria, precio, stock, disponible } = req.body
-    
-    if (!nombre || !categoria || !precio || !stock) {
-        return res.status(403).json({mensaje: "faltan campos por llenar"})
-    }
 
-    if (req.usuario.rol != "admin") {
+    if (req.usuario.rol !== "admin") {
         return res.status(403).json({mensaje:"solo los administradores crean productos"})
     }
 
+    if (
+        typeof nombre !== "string" ||
+        !nombre.trim() ||
+        typeof categoria !== "string" ||
+        !categoria.trim() ||
+        !Number.isInteger(precio) ||
+        precio <= 0 ||
+        !Number.isInteger(stock) ||
+        stock < 0 ||
+        typeof disponible !== "boolean"
+    ) {
+        return res.status(400).json({
+            mensaje: "nombre y categoría son obligatorios; precio debe ser un entero positivo, stock un entero no negativo y disponibilidad un booleano"
+        })
+    }
+
     const producto = await prisma.producto.create({
-        data:{nombre,categoria,precio,stock,disponible}
+        data:{
+            nombre: nombre.trim(),
+            categoria: categoria.trim(),
+            precio,
+            stock,
+            disponible
+        }
     })
 
     return res.status(201).json(producto)

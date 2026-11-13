@@ -23,7 +23,7 @@ model Producto {
   categoria String
   precio Int
   stock Int
-  disponible String @default("true")
+  disponible Boolean @default(true)
 
   venta Venta[]
 }
