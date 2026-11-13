@@ -27,7 +27,7 @@ export default function MisVentas() {
 
     
   return (
-    <View style={{ padding: 20 }}>
+    <View style={{ padding: 100 }}>
       <Text>Mis ventas</Text>
 
       <FlatList

@@ -1,30 +1,23 @@
-import * as Notifications from "expo-notifications";
+import * as Notifications from "expo-notifications"
 
-// SOLICITAR PERMISOS
 export async function solicitarPermisos() {
-    const { granted } = await Notifications.requestPermissionsAsync()
-    
-    if (!granted) {
-        console.log("permisos denegados")
-    }
-
-  return granted
+  const { granted } = await Notifications.requestPermissionsAsync()
+  
+  if (!granted) {
+    console.log("permisos denegados")
+  }
 }
 
 
-// MOSTRAR NOTIFICACION
 export async function mostrarNotificacion() {
-  const permiso = await solicitarPermisos();
+  const permisos = await solicitarPermisos()
 
-  if (!permiso) {
-    return;
+  if (!permisos) {
+    return
   }
 
   await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Venta registrada",
-      body: "La venta se ha registrado correctamente.",
-    },
-    trigger: null,
-  });
+    content: { title: "Venta creada", boby: "venta creada correctamente" },
+    trigger: null
+  })
 }
