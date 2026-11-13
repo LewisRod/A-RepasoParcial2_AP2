@@ -33,6 +33,7 @@ export const crearVenta = async (req, res) => {
       total,
       usuarioId: req.usuario.id,
       productoId: producto.id,
+      fecha: new Date()
     },
   });
 

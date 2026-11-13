@@ -16,6 +16,6 @@ export default function Index() {
 
 const style = StyleSheet.create({
     container: {
-        padding:100
+        padding:110
     }
 })

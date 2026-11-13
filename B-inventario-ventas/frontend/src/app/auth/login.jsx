@@ -1,42 +1,53 @@
-import { router } from "expo-router"
 import { useState } from "react"
-import { View, Text, TextInput, Button, Alert,StyleSheet } from "react-native"
+import { router } from "expo-router"
+import { View, Text, TextInput, Button, Alert } from "react-native"
 import { login } from "../../servicios/auth.services.js"
-import{guardarToken} from "../../servicios/storageService.js"
+import { guardarToken } from "../../servicios/storageService.js"
+
 
 
 export default function Login() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-    async function handleLogin() {
-        const respuesta = await login({
-            email,password
-        })
 
-        await guardarToken(respuesta.token)
+  async function handleLogin() {
+    try {
+      const respuesta = await login({ email, password })
 
-        Alert.alert("Login exitoso","continue para gestionar el inventario",[{text:"continuar",onPress:() => router.push("/productos")}])
+      await guardarToken(respuesta.token)
+
+    Alert.alert("Login exitoso", "Bienvenido", [{ text: "Continuar", onPress: () => router.replace("/productos") }])
+        
+    } catch (error) {
+      Alert.alert( "Error", error.response?.data?.mensaje || "No se pudo iniciar sesion" )
     }
+  }
 
-    return (
-        <View style={style.container}>
-            <Text>Inicio de sesion</Text>
 
-            <Text>Email</Text>
-            <TextInput placeholder="ingrese su correo..." value={email} onChangeText={setEmail} />
 
-            <Text>Contrasena</Text>
-            <TextInput placeholder="ingrese su contrsena" value={password} onChangeText={setPassword} />
+  return (
+    <View style={{ padding: 100 }}>
+      <Text>Inicio de sesion</Text>
 
-            <Button title="Continuar" onPress={handleLogin}/>
-        </View>
-    )
+      <Text>Email</Text>
+      <TextInput
+        placeholder="Ingrese su correo..."
+        value={email}
+        onChangeText={setEmail}
+      />
+
+      <Text>Contraseña</Text>
+      <TextInput
+        placeholder="Ingrese su contraseña..."
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <Button title="Iniciar sesión" onPress={handleLogin} />
+      <Button title="Registrarse" onPress={() => router.push("/auth/registro")} />
+          
+    </View>
+  );
 }
-
-const style = StyleSheet.create({
-    container: {
-        padding:100
-    }
-})

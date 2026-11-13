@@ -1,69 +1,73 @@
-import { useState } from "react";
-import { View, Text, TextInput, Alert, Button,StyleSheet } from "react-native"
+import { useState } from "react"
+import { View, Text, TextInput, Button, Alert } from "react-native"
+import { router } from "expo-router"
 import { crearProducto } from "../../servicios/productos.services.js"
-import {router} from "expo-router"
+
+export default function CrearProducto() {
+  const [nombre, setNombre] = useState("")
+  const [categoria, setCategoria] = useState("")
+  const [precio, setPrecio] = useState(0)
+  const [stock, setStock] = useState(0)
+  const [disponible, setDisponible] = useState(true)
 
 
-export default function Crear() {
-    const [nombre, setNombre] = useState("")
-    const [categoria, setCategoria] = useState("")
-    const [precio, setPrecio] = useState("")
-    const [stock, setStock] = useState("")
-    const [disponible, setDisponible] = useState(true)
-    
 
-    async function handleCrear() {
 
-         await crearProducto({
-           nombre,
-           categoria,
-           precio,
-           stock,
-           disponible,
-         });
+  async function handleCrear() {
+    try {
+      await crearProducto({
+        nombre, categoria, precio: Number(precio), stock: Number(stock),disponible
+      })
 
-         Alert.alert("producto creado", "Producto creado correctamente", [
-           { text: "continuar", onPress: () => router.replace("/productos") },
-         ]);
-           
-         setNombre("")
-         setCategoria("")
-         setPrecio("")
-         setStock("")
-         setDisponible(true)
+    Alert.alert("Correcto", "Producto creado correctamente", [{ text: "Continuar", onPress: () => router.replace("/productos") }])
         
+    } catch (error) {
+      Alert.alert("Error",  "No se pudo crear el producto" )
     }
+  }
 
-    return (
-        <View style={style.container}>
-            <Text>Crea tus producto</Text>
+    
+  
+  return (
+    <View style={{ padding: 110 }}>
+      <Text>Crear producto</Text>
 
-            <Text>Nombre del producto</Text>
-            <TextInput placeholder="digite el nombre del producto..." value={nombre} onChangeText={setNombre} />
+      <Text>Nombre</Text>
+      <TextInput
+        placeholder="Nombre del producto"
+        value={nombre}
+        onChangeText={setNombre}
+      />
 
-            <Text>Categoria</Text>
-            <TextInput placeholder="digite su categoria..." value={categoria} onChangeText={setCategoria} />
+      <Text>Categoria</Text>
+      <TextInput
+        placeholder="Categoria"
+        value={categoria}
+        onChangeText={setCategoria}
+      />
 
-            <Text>Precio</Text>
-            <TextInput placeholder="digite el precio del producto" value={precio} onChangeText={setPrecio} />
+      <Text>Precio</Text>
+      <TextInput
+        placeholder="Precio"
+        value={precio}
+        onChangeText={setPrecio}
+        keyboardType="numeric"
+      />
 
-            <Text>Stock</Text>
-            <TextInput placeholder="digite la cantidad disponible" value={stock} onChangeText={setStock} />
+      <Text>Stock</Text>
+      <TextInput
+        placeholder="Cantidad disponible"
+        value={stock}
+        onChangeText={setStock}
+        keyboardType="numeric"
+      />
 
-            <Text>Eliga disponibilidad</Text>
-            <Text>Diponiblidad: {disponible ? "Disponible": "no disponible"}</Text>
+      <Text>Disponibilidad: {disponible ? "Disponible" : "No disponible"}</Text>
 
-            <Button title="O disponible" onPress={() => setDisponible(true)} />
-            <Button title="O no disponible" onPress={() => setDisponible(false)} />
-            
-            <Button title="Agregar producto" onPress={handleCrear}/>
-        </View>
-    )
+      <Button title="Disponible" onPress={() => setDisponible(true)} />
+      <Button title="No disponible" onPress={() => setDisponible(false)} />
+
+      <Button title="Crear producto" onPress={handleCrear} />
+    </View>
+  );
 }
-
-
-const style = StyleSheet.create({
-    container: {
-        padding:100
-    }
-})
