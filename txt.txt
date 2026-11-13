@@ -1,0 +1,31 @@
+FASE 1 — Backend
+N.º	Archivo
+1	schema.prisma
+2	db.js
+3	auth.middleware.js
+4	logger.middleware.js
+5	auth.controller.js
+6	producto.controller.js
+7	venta.controller.js
+8	auth.routes.js
+9	producto.routes.js
+10	venta.routes.js
+11	index.js
+
+FASE 2 — Frontend
+N.º	Archivo o paso
+12	api.js
+13	storageService.js
+14	auth.services.js
+15	productos.services.js
+16	ventas.services.js
+17	notificacionesServices.js
+18	login.jsx
+19	registro.jsx
+20	productos/index.jsx
+21	productos/crear.jsx
+22	productos/editar.jsx
+23	ventas/index.jsx
+24	ventas/crear.jsx
+25	ventas/misVentas.jsx
+26	ventas/actualizarVenta.jsx

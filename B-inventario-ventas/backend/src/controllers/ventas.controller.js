@@ -1,36 +1,55 @@
 import prisma from "../db.js"
 
+
 export const crearVenta = async (req, res) => {
-    const { cantidad, precioUnitario, total, fecha, estado } = req.body
-    
-    if (req.usuario.rol != "empleado") {
-        return res.status(404).json({mensaje:"solo los empleados crean ventas"})
-    }
+  const { productoId, cantidad } = req.body;
 
-    await prisma.producto.update({
-        where: { id: req.producto.id },
-        data:{stock:{decrement:cantidad}}
-    })
+  if (req.usuario.rol != "empleado") {
+    return res.status(403).json({ mensaje: "solo los empleados crean ventas" });
+  }
 
-    if (!cantidad || !precioUnitario || !total || !fecha) {
-        return res.status(404).json({mensaje:"faltan campos"})
-    }
+  if (!productoId || !cantidad || cantidad <= 0) {
+    return res.status(400).json({ mensaje: "faltan campos" });
+  }
 
-    if (cantidad > req.producto.stock) {
-        return res.status(403).json({mensaje:"la cantidad es mayor que el stock"})
-    }
+  const producto = await prisma.producto.findUnique({
+    where: { id: Number(productoId) },
+  });
 
-    const fechaFormateada = new Date(fecha)
-    const totalVenta = cantidad * precioUnitario
-    
+  if (!producto) {
+    return res.status(404).json({ mensaje: "producto no encontrado" });
+  }
 
-    const nuevaVenta = await prisma.venta.create({
-        data:{cantidad,total:totalVenta,fecha:fechaFormateada,estado}
-    })
+  if (cantidad > producto.stock) {
+    return res.status(400).json({ mensaje: "stock insuficiente" });
+  }
 
-    return res.status(403).json(nuevaVenta)
-    
-}
+  const total = cantidad * producto.precio;
+
+  const nuevaVenta = await prisma.venta.create({
+    data: {
+      cantidad,
+      precioUnitario: producto.precio,
+      total,
+      usuarioId: req.usuario.id,
+      productoId: producto.id,
+    },
+  });
+
+  await prisma.producto.update({
+    where: { id: producto.id },
+    data: {
+      stock: producto.stock - cantidad,
+      disponible: producto.stock - cantidad > 0,
+    },
+  });
+
+  return res.status(201).json({
+    mensaje: "venta registrada correctamente",
+    venta: nuevaVenta,
+  });
+};
+
 
 
 
@@ -45,46 +64,12 @@ export const listarVentas = async (req, res) => {
 }
 
 
+
 export const misVentas = async (req, res) => {
-    const id = parseInt(req.venta.usuarioId)
+  const ventas = await prisma.venta.findMany({
+    where: { usuarioId: req.usuario.id },
+  });
 
-    if (id != req.venta.usuarioId) {
-        return res.status(404).json({mensaje:"solo puedes ver tus ventas"})
-    }
-
-    const ventas = await prisma.venta.findMany({
-        where:{usuarioId:req.usuario.id}
-    })
-
-    return res.status(200).json(ventas)
-}
-
-
-export const buscarVentas = async (req, res) => {
-    const id = parseInt(req.params.id)
-
-    const ventas = await prisma.venta.findUnique({
-        where:{id:id}
-    })
-
-    return res.status(200).json(ventas)
-}
-
-
-export const cambiarEstado = async (req, res) => {
-    const { estado } = req.body
-    const id = parseInt(req.params.id)
-    let ventas
-
-    if (!estado) {
-        return res.status(200).json({mensaje:"faltan campos por llenar"})
-    }
-
-    ventas = await prisma.venta.update({
-        where: { id: id },
-        data:{estado}
-    })
-
-    return res.status(200).json({mensaje:"venta actualizada",ventas})
-}
+  return res.status(200).json(ventas);
+};
 

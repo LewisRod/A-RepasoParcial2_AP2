@@ -19,23 +19,30 @@ export default function Productos() {
     }
 
     return (
-        <View style = {style.container}>
-            <FlatList
-                data={productos}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                    <View>
-                        <Text>{item.nombre}</Text>
-                        <Text>Categoria: {item.categoria}</Text>
-                        <Text>Precio: {item.precio}</Text>
-                        <Text>Stock: {item.stock}</Text>
-                        <Text>Disponible: {item.disponible}</Text>
-                    </View>
-                )}
-            />
-            <Button title="crear producto" onPress={() => router.push("/productos/crear")}/>
-        </View>
-    )
+      <View style={style.container}>
+        <FlatList
+          data={productos}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View>
+              <Text>{item.nombre}</Text>
+              <Text>Categoria: {item.categoria}</Text>
+              <Text>Precio: {item.precio}</Text>
+              <Text>Stock: {item.stock}</Text>
+              <Text>Disponible: {item.disponible}</Text>
+              <Button
+                title="Actualizar"
+                onPress={() => router.push(`/productos/editar?id=${item.id}}`)}
+              />
+            </View>
+          )}
+        />
+        <Button
+          title="crear producto"
+          onPress={() => router.push("/productos/crear")}
+        />
+      </View>
+    );
 }
 
 const style = StyleSheet.create({

@@ -13,32 +13,12 @@ export default function Crear() {
     
 
     async function handleCrear() {
-       const precioNumerico = Number(precio)
-       const stockNumerico = Number(stock)
 
-       if (
-         !nombre.trim() ||
-         !categoria.trim() ||
-         !precio.trim() ||
-         !stock.trim() ||
-         !Number.isInteger(precioNumerico) ||
-         precioNumerico <= 0 ||
-         !Number.isInteger(stockNumerico) ||
-         stockNumerico < 0
-       ) {
-         Alert.alert(
-           "Datos inválidos",
-           "Ingresa nombre, categoría, un precio entero mayor que cero y un stock entero igual o mayor que cero."
-         )
-         return
-       }
-
-       try {
          await crearProducto({
-           nombre: nombre.trim(),
-           categoria: categoria.trim(),
-           precio: precioNumerico,
-           stock: stockNumerico,
+           nombre,
+           categoria,
+           precio,
+           stock,
            disponible,
          });
 
@@ -51,15 +31,6 @@ export default function Crear() {
          setPrecio("")
          setStock("")
          setDisponible(true)
-           
-       } catch (error) {
-           const mensaje =
-             error.response?.data?.mensaje ||
-             (error.response?.status === 401
-               ? "Inicia sesión para crear un producto."
-               : error.message || "No fue posible crear el producto.")
-           Alert.alert("Error al crear el producto", mensaje)
-       }
         
     }
 

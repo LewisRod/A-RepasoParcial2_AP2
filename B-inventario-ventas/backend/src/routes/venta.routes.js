@@ -1,14 +1,18 @@
-import Router from "express"
-import { crearVenta, listarVentas, misVentas, buscarVentas, cambiarEstado } from "../controllers/ventas.controller.js"
-import { authMiddleware } from "../middlewares/auth.middleware.js"
- 
+import { Router } from "express";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
-const router = Router()
+import {
+  crearVenta,
+  listarVentas,
+  misVentas,
+} from "../controllers/ventas.controller.js";
 
-router.post("/", authMiddleware, crearVenta)
-router.get("/", authMiddleware, listarVentas)
-router.get("/mis-ventas", authMiddleware, misVentas)
-router.get("/:id", authMiddleware, buscarVentas)
-router.put("/:id/estado", authMiddleware, cambiarEstado)
+const router = Router();
 
-export default router
+router.post("/", authMiddleware, crearVenta);
+
+router.get("/", authMiddleware, listarVentas);
+
+router.get("/mis-ventas", authMiddleware, misVentas);
+
+export default router;
