@@ -7,7 +7,7 @@ const router = Router()
 
 router.get("/", authMiddleware, listarPlanes)
 router.post("/", authMiddleware, crearPlan)
-router.put(`/:id`, authMiddleware, actualizarPlan)
+router.put("/:id", authMiddleware, actualizarPlan)
 router.delete("/:id", authMiddleware, eliminarPlan)
 
 
