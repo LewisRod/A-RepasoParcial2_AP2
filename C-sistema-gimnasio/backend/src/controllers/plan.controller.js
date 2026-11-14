@@ -53,15 +53,6 @@ export const actualizarPlan = async (req, res) => {
         return res.status(404).json({mensaje:"plan no encontrado"})
     }
     
-        if (
-          typeof nombre != "string" ||
-          typeof precio != "number" ||
-          typeof duracionDias != "number"
-        ) {
-          return res
-            .status(400)
-            .json({ mensaje: "los campos son string y int" });
-        }
     
     const actualizarPlan = await prisma.plan.update({
         where: { id },
