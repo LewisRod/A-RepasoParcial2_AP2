@@ -56,7 +56,7 @@ export const actualizarPlan = async (req, res) => {
     
     const actualizarPlan = await prisma.plan.update({
         where: { id },
-        data:{nombre,precio:Number(precio),duracionDias:Number(duracionDias),activo}
+        data:{nombre,precio,duracionDias,activo}
     })
 
     return res.status(200).json({mensaje:"plan actualizado",actualizarPlan})
